@@ -11,7 +11,9 @@ import time
 
 # Function to get primes upto some n value
 def get_primes(n, file):
-    primes = []
+    primes = [] # Initialize a blank list to store primes
+
+    # Collect n primes from file with primes
     with open(file, "r") as f:
         for num in f:
             if int(num) <= n:
@@ -23,6 +25,7 @@ def get_primes(n, file):
 
 # Function to test if mersenne number is prime
 def is_prime_check(m, p, s, iteration):
+    # Iterate for how big p is or when formula equals 0
     if iteration <= p:
         if iteration == 0:
             s_iter = 4
@@ -34,12 +37,6 @@ def is_prime_check(m, p, s, iteration):
             return is_prime_check(m, p, s_iter, iteration+1)
     else:
         return False
-
-    # num = 2**p-1
-    # for div in range(2, int(math.sqrt(num)+1)):
-    #     if num % div == 0:
-    #         return False
-    # return True
 
 
 # Main function
@@ -62,6 +59,7 @@ def main():
         if is_prime_check(2**p-1, p, 4, 0):
             p_primes.append(p)
 
+    # Display mersenne primes
     print(p_primes)
 
     # Calculate time
