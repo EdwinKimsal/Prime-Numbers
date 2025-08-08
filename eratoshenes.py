@@ -4,15 +4,16 @@ up to n value. This algorithm is called the Sieve of
 Eratosthenes, which is an ancient algorithm
 """
 
+
 # Import(s)
 import os
 import time
 
 
 # Function to write lines from array into txt file
-def write_output(file, input):
+def write_output(file, li):
     with open(file, "w") as f:
-        for line in input:
+        for line in li:
             f.writelines(str(line) + "\n")
 
 

@@ -1,14 +1,23 @@
 """
-This file detects mersenne prime numbers, where the
-input file is a list of prime numbers with each new
-line being the next prime number. The algorithm used
-is the Lucas-Lehmer sequence.
+This file graphs the results of lucas-lehmer
+sequence after each iteration for some prime (p)
 """
 
 
 # Import(s)
 import os
 import time
+import matplotlib.pyplot as plt
+
+
+# Function to make graph of all s values for p
+def make_graph(p, val):
+    plt.title(str(p))
+    plt.xlabel("Iteration")
+    plt.ylabel("Remainder")
+    plt.plot(range(1, len(val)+1), val)
+    plt.grid()
+    plt.show()
 
 
 # Function to write lines from array into txt file
@@ -34,21 +43,28 @@ def get_primes(n, file):
 
 # Function to test if mersenne number is prime
 def is_prime_check(m, p, s, iteration):
+    # Create a blank file for points
+    points = []
+
     # Iterate for how big p is or when formula equals 0
     while iteration <= p:
+        # Append s (remainder) to points
+        points.append(s)
+
+        # Calculate current s and see if 0 (then prime, else not yet prime)
         s = (s**2-2) % m
         if s == 0:
-            return True
+            points.append(s)
+            return True, points
         iteration += 1
-    return False
+    return False, points
 
 
 # Main function
 def main():
     # Customizable variables
-    n = 11300
+    n = 100
     input_file = os.path.join(os.getcwd(), "Tests", "one-billion.txt")
-    outpath = os.path.join(os.getcwd(), "p_mersenne.txt")
 
     # Start time
     start_time = time.perf_counter()
@@ -61,11 +77,13 @@ def main():
 
     # Append all mersenne primes
     for p in p_list:
-        if is_prime_check(2**p-1, p, 4, 1):
+        return_value = is_prime_check(2**p-1, p, 4, 1)
+        if return_value[0]:
             p_primes.append(p)
+        make_graph(p, return_value[1])
 
-    # Call function to write array in outfile
-    write_output(outpath, p_primes)
+    # Display primes
+    print(p_primes)
 
     # Calculate time
     end_time = time.perf_counter()
